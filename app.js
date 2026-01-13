@@ -368,3 +368,15 @@ function random4Digit() {
 showScreen(screenRole);
 setStatus(false, "Ikke tilkoblet");
 renderHostButtons(false);
+
+// --- Service Worker (PWA) ---
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", async () => {
+    try {
+      await navigator.serviceWorker.register("./service-worker.js");
+      // optional: console.log("SW registered");
+    } catch (e) {
+      // optional: console.warn("SW registration failed", e);
+    }
+  });
+}
