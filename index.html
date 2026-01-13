@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="no">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Prompemaskin Remote</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- PeerJS (WebRTC) -->
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+</head>
+<body>
+  <div class="bg">
+    <div class="float float1"></div>
+    <div class="float float2"></div>
+    <div class="float float3"></div>
+  </div>
+
+  <main class="app">
+    <header class="top">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">💨</div>
+        <div>
+          <h1>Prompemaskin Remote</h1>
+          <p class="sub">Host = kontrollpanel • Join = spiller prompene</p>
+        </div>
+      </div>
+
+      <div class="status" id="statusPill">
+        <span class="dot" id="statusDot"></span>
+        <span id="statusText">Ikke tilkoblet</span>
+      </div>
+    </header>
+
+    <!-- ROLE SELECT -->
+    <section class="card" id="screenRole">
+      <h2>Velg modus</h2>
+      <p class="muted">Åpne samme URL på begge telefoner. Velg <b>Host</b> på kontroll-telefonen og <b>Join</b> på lyd-telefonen.</p>
+
+      <div class="btnRow">
+        <button class="btn big primary" id="btnHost">
+          <span class="btnIcon">🕹️</span>
+          Host (kontroll)
+        </button>
+
+        <button class="btn big secondary" id="btnJoin">
+          <span class="btnIcon">📲</span>
+          Join (lyd)
+        </button>
+      </div>
+
+      <div class="hint">
+        <div class="hintIcon">✨</div>
+        <div>
+          Tips: På lyd-telefonen må du trykke <b>Aktiver lyd</b> én gang (nettleserkrav).
+        </div>
+      </div>
+    </section>
+
+    <!-- HOST SCREEN -->
+    <section class="card hidden" id="screenHost">
+      <div class="cardHead">
+        <h2>Host: Kontrollpanel</h2>
+        <button class="btn ghost" id="btnBackFromHost">Tilbake</button>
+      </div>
+
+      <div class="codeBox">
+        <div class="codeLabel">Din 4-sifrede kode</div>
+        <div class="code" id="hostCode">----</div>
+        <button class="btn small" id="btnNewCode">Ny kode</button>
+      </div>
+
+      <div class="muted" style="margin-top:10px;">
+        Når Join kobler til, får du knapper som sender prompene.
+      </div>
+
+      <div class="panel">
+        <h3>🎛️ ProMPE-panel</h3>
+        <div class="grid6" id="hostButtons">
+          <!-- Buttons injected by JS -->
+        </div>
+
+        <div class="miniRow">
+          <label class="toggle">
+            <input type="checkbox" id="chkHaptics" checked />
+            <span class="track"></span>
+            <span class="lbl">Haptics (vibrasjon) på trykk</span>
+          </label>
+
+          <button class="btn small secondary" id="btnTestPing">Test “pling”</button>
+        </div>
+
+        <div class="log" id="logHost"></div>
+      </div>
+    </section>
+
+    <!-- JOIN SCREEN -->
+    <section class="card hidden" id="screenJoin">
+      <div class="cardHead">
+        <h2>Join: Lyd-telefon</h2>
+        <button class="btn ghost" id="btnBackFromJoin">Tilbake</button>
+      </div>
+
+      <div class="joinBox">
+        <label class="field">
+          <span>Host-kode (4 siffer)</span>
+          <input id="joinCode" inputmode="numeric" maxlength="4" placeholder="f.eks. 1234" />
+        </label>
+
+        <button class="btn primary big" id="btnConnect">
+          <span class="btnIcon">🔗</span>
+          Koble til
+        </button>
+
+        <button class="btn secondary big" id="btnEnableAudio">
+          <span class="btnIcon">🔊</span>
+          Aktiver lyd
+        </button>
+
+        <div class="muted smallText">
+          “Aktiver lyd” må trykkes minst én gang for at nettleseren skal tillate avspilling.
+        </div>
+      </div>
+
+      <div class="receiver">
+        <h3>📻 Mottaker</h3>
+        <p class="muted">Når Host trykker på knapper, spiller denne telefonen prompelydene.</p>
+        <div class="nowPlaying" id="nowPlaying">Venter…</div>
+        <div class="log" id="logJoin"></div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span>Tip: legg til på startskjerm for “app-følelse”.</span>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
